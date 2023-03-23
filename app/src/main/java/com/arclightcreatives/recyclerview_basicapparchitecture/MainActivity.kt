@@ -1,0 +1,25 @@
+package com.arclightcreatives.recyclerview_basicapparchitecture
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.arclightcreatives.recyclerview_basicapparchitecture.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var activityMainBinding: ActivityMainBinding
+    private lateinit var mainviemodel: Mainviemodel
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        mainviemodel = ViewModelProvider(this).get(Mainviemodel::class.java)
+        activityMainBinding.viewmodel =mainviemodel
+        activityMainBinding.executePendingBindings()
+
+        activityMainBinding.recyclerView.layoutManager = LinearLayoutManager(this)
+        activityMainBinding.recyclerView.adapter = RecyclerAdapter(mainviemodel.dataViewmodel)
+
+
+    }
+}
