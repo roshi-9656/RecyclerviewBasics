@@ -32,4 +32,9 @@ class RecyclerAdapter(private var items: ArrayList<RepoModel>) :
         holder.bind(items[position])
     }
 
+    fun replace(itemlist: ArrayList<RepoModel>){
+        this.items =itemlist
+        notifyDataSetChanged()
+    }
+
 }
