@@ -23,9 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding.recyclerView.layoutManager = LinearLayoutManager(this)
         activityMainBinding.recyclerView.adapter=repositoryRecyclerViewAdapter
-        mainviemodel.dataViewmodel.observe(this, Observer {
-            it?.let { repositoryRecyclerViewAdapter.replace(it) }
-        })
+
+        mainviemodel.dataViewmodel.observe(this,
+            Observer<ArrayList<RepoModel>> {
+                it?.let{ repositoryRecyclerViewAdapter.replace(it)} })
 
 
     }
