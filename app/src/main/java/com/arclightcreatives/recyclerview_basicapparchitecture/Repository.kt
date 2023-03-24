@@ -1,5 +1,7 @@
 package com.arclightcreatives.recyclerview_basicapparchitecture
 
+import java.util.logging.Handler
+
 class Repository {
 
     fun getRepomodels(repositorydatacalback: Repositorydatacalback) {
@@ -7,7 +9,8 @@ class Repository {
         repoList.add(RepoModel("Roshin", "2135123", "books", "close"))
         repoList.add(RepoModel("Monika", "2135123", "books", "close"))
         repoList.add(RepoModel("Anu", "2135123", "books", "open"))
-        repositorydatacalback.onRepositorydataready(repoList)
+        android.os.Handler().postDelayed({repositorydatacalback.onRepositorydataready(repoList)},2000)
+
     }
 
 }
