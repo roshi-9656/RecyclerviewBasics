@@ -1,9 +1,10 @@
 package com.arclightcreatives.recyclerview_basicapparchitecture
 
 import android.content.Context
+import io.reactivex.Observable
 import java.util.logging.Handler
 
-class Repository (private val netManager: NetManager){
+class Repository(private val netManager: NetManager) {
 
     var localdatasource = Localdatasource()
     var remotedatasource = Remotedatasource()
@@ -18,26 +19,31 @@ class Repository (private val netManager: NetManager){
     }*/
 
 
+    fun getdatafromRemote(): Observable<ArrayList<RepoModel>> {
 
-    fun getdatafromRemote(repositorydatacalback: Repositorydatacalback) {
+        /* netManager.isConnectedToInternet?.let {
+             if(it){
+                 remotedatasource.getRepodataremote(object : OnRepoRemoteReadyCallback {
+                     override fun onRemoteDataReady(data: ArrayList<RepoModel>) {
+                         localdatasource.saveRepositories(data)
+                         repositorydatacalback.onRepositorydataready(data)
+                     }
+                 })
+             }else{
+                 localdatasource.getRepodatafromlocal(object : OnRepoLocalReadyCallback{
+                     override fun onLocalDataReady(data: ArrayList<RepoModel>) {
+                         repositorydatacalback.onRepositorydataready(data)
+                     }
+                 })
+             }
+         }*/
 
         netManager.isConnectedToInternet?.let {
-            if(it){
-                remotedatasource.getRepodataremote(object : OnRepoRemoteReadyCallback {
-                    override fun onRemoteDataReady(data: ArrayList<RepoModel>) {
-                        localdatasource.saveRepositories(data)
-                        repositorydatacalback.onRepositorydataready(data)
-                    }
-                })
-            }else{
-                localdatasource.getRepodatafromlocal(object : OnRepoLocalReadyCallback{
-                    override fun onLocalDataReady(data: ArrayList<RepoModel>) {
-                        repositorydatacalback.onRepositorydataready(data)
-                    }
-                })
+            if (it) {
+                return remotedatasource.getRepodataremote()
             }
         }
-
+        return localdatasource.getRepodatafromlocal()
     }
 
 }
